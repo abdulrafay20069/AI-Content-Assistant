@@ -1,31 +1,48 @@
-# AI Cover Letter Generator
+# AI Content Assistant
 
-A command-line Java app that generates tailored cover letters using 
-Groq's API with Llama 3.3 — completely free, no credit card needed.
+A command-line Java application that uses AI to generate content, summarize text, and answer questions. Built with Groq API (Llama 3.3) - completely free, no credit card needed.
 
-## Demo
+## Features (Building in Progress)
 
-![Cover letter generation](demo/demo1.png)
-![Generated output](demo/demo2.png)
+- ✅ **Day 1:** Basic API integration working
+- 🚧 **Day 2:** Content generation (blog posts, social media, emails)
+- 🚧 **Day 3:** Text summarization
+- 🚧 **Day 4:** Q&A system
 
+## Current Status
 
-## What it does
-- You paste a job description
-- You describe your background  
-- You pick a tone (professional / enthusiastic / concise)
-- AI generates a matching cover letter and saves it to a file
+Day 1 complete - successfully connected to Groq API and generated first AI response.
 
-## Tech stack
-Java | OkHttp | Gson | Groq API | Llama 3.3 70B
+## Tech Stack
 
-## How to run
+- Java
+- OkHttp (HTTP client)
+- Gson (JSON parsing)
+- Groq API (Llama 3.3 70B)
+
+## How to Run
+
 1. Clone this repo
-2. Download OkHttp and Gson jars into a `lib/` folder
-3. Get a free API key from console.groq.com
-4. Save it in `api-key.txt` in the project root
-5. Compile: `javac -cp "lib/*" src/Main.java -d src`
+2. Download required JARs into `lib/` folder:
+   - okhttp-4.12.0.jar
+   - okio-jvm-3.6.0.jar
+   - gson-2.10.1.jar
+   - kotlin-stdlib-1.9.22.jar
+3. Get free API key from console.groq.com
+4. Save key in `api-key.txt` at project root
+5. Compile: `javac -cp "lib/*" src/Main.java`
 6. Run: `java -cp "src;lib/*" Main`
 
-## Why I built this
-First project in my AI portfolio. Demonstrates REST API integration,
-JSON parsing, and prompt engineering in Java.
+## Why This Project
+
+First project in my AI application development portfolio. Demonstrates:
+- REST API integration
+- JSON parsing and handling
+- Prompt engineering
+- Building practical AI tools in Java
+
+## Next Steps
+
+Week 1: Complete CLI version with all features
+Week 2: Build web version with Spring Boot + React
+Week 3: Deploy and add automation features
