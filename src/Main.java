@@ -1,116 +1,162 @@
-import okhttp3.*;
-import com.google.gson.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Main {
-
-    private static final String API_URL = "https://api.groq.com/openai/v1/chat/completions";
-    private static String API_KEY;
-
+    private static ContentGenerator generator;
+    private static Scanner scanner = new Scanner(System.in);
+    
     public static void main(String[] args) {
         try {
-            API_KEY = Files.readString(Paths.get("api-key.txt")).trim();
-            System.out.println("API key loaded successfully.");
-            System.out.println("=================================");
-            System.out.println("  AI Cover Letter Generator");
-            System.out.println("=================================\n");
-
-            Scanner scanner = new Scanner(System.in);
-
-            System.out.println("Paste the job description below.");
-            System.out.println("When done, type END on a new line and press Enter:\n");
-            StringBuilder jobDesc = new StringBuilder();
-            String line;
-            while (!(line = scanner.nextLine()).equals("END")) {
-                jobDesc.append(line).append("\n");
+            // Load API key
+            String apiKey = Files.readString(Paths.get("api-key.txt")).trim();
+            generator = new ContentGenerator(apiKey);
+            
+            System.out.println("🤖 AI Content Assistant - Powered by Groq");
+            System.out.println("==========================================\n");
+            
+            // Main menu loop
+            while (true) {
+                displayMenu();
+                int choice = getChoice();
+                
+                if (choice == 5) {
+                    System.out.println("\n👋 Thanks for using AI Content Assistant!");
+                    break;
+                }
+                
+                handleChoice(choice);
             }
-
-            System.out.println("\nBriefly describe your background (skills, experience):");
-            String background = scanner.nextLine();
-
-            System.out.println("\nChoose tone:");
-            System.out.println("  1 = Professional");
-            System.out.println("  2 = Enthusiastic");
-            System.out.println("  3 = Concise");
-            System.out.print("Enter 1, 2, or 3: ");
-            String toneChoice = scanner.nextLine().trim();
-            String tone = switch (toneChoice) {
-                case "2" -> "enthusiastic and energetic";
-                case "3" -> "concise and to the point";
-                default  -> "professional and formal";
-            };
-
-            String prompt = String.format(
-                "You are an expert career coach. Write a compelling cover letter with a %s tone.\n\n" +
-                "Job Description:\n%s\n\n" +
-                "Applicant Background:\n%s\n\n" +
-                "Instructions:\n" +
-                "- Start with a strong opening hook\n" +
-                "- Match skills from the background to requirements in the job description\n" +
-                "- Keep it to 3-4 paragraphs\n" +
-                "- End with a confident call to action\n" +
-                "- Do NOT include placeholder brackets, write the full letter body only",
-                tone, jobDesc.toString(), background
-            );
-
-            System.out.println("\nGenerating your cover letter...\n");
-            String result = callGroq(prompt);
-
-            System.out.println("=================================");
-            System.out.println("         YOUR COVER LETTER");
-            System.out.println("=================================\n");
-            System.out.println(result);
-
-            Files.writeString(Paths.get("cover-letter.txt"), result);
-            System.out.println("\n[Saved to cover-letter.txt]");
-
-            scanner.close();
-
+            
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("❌ Error: " + e.getMessage());
             e.printStackTrace();
+        } finally {
+            scanner.close();
         }
     }
-
-    private static String callGroq(String prompt) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-
-        String jsonBody = String.format(
-            "{\"model\": \"llama-3.3-70b-versatile\", \"messages\": [{\"role\": \"user\", \"content\": \"%s\"}]}",
-            prompt.replace("\\", "\\\\")
-                  .replace("\"", "\\\"")
-                  .replace("\n", "\\n")
-                  .replace("\r", "")
-        );
-
-        RequestBody body = RequestBody.create(
-            jsonBody,
-            MediaType.parse("application/json")
-        );
-
-        Request request = new Request.Builder()
-            .url(API_URL)
-            .addHeader("Authorization", "Bearer " + API_KEY)
-            .addHeader("Content-Type", "application/json")
-            .post(body)
-            .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) {
-                String errorBody = response.body() != null ? response.body().string() : "no body";
-                throw new IOException("API call failed: " + response.code() + "\n" + errorBody);
-            }
-
-            String responseBody = response.body().string();
-            JsonObject json = JsonParser.parseString(responseBody).getAsJsonObject();
-
-            return json.getAsJsonArray("choices")
-                       .get(0).getAsJsonObject()
-                       .getAsJsonObject("message")
-                       .get("content").getAsString();
+    
+    private static void displayMenu() {
+        System.out.println("\n=== What would you like to create? ===");
+        System.out.println("1. 📝 Blog Post");
+        System.out.println("2. 📱  Social Media Post");
+        System.out.println("3. ✉️  Email");
+        System.out.println("4. 🛍️  Product Description");
+        System.out.println("5. 🚪 Exit");
+        System.out.print("\nChoose (1-5): ");
+    }
+    
+    private static int getChoice() {
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
         }
+    }
+    
+    private static void handleChoice(int choice) {
+        try {
+            switch (choice) {
+                case 1 -> generateBlogPost();
+                case 2 -> generateSocialPost();
+                case 3 -> generateEmail();
+                case 4 -> generateProductDescription();
+                default -> System.out.println("❌ Invalid choice. Try again.");
+            }
+        } catch (IOException e) {
+            System.out.println("❌ Error generating content: " + e.getMessage());
+        }
+    }
+    
+    private static void generateBlogPost() throws IOException {
+        System.out.print("\n📝 Blog topic: ");
+        String topic = scanner.nextLine();
+        
+        System.out.print("Target audience (e.g., beginners, professionals): ");
+        String audience = scanner.nextLine();
+        
+        System.out.println("\n⏳ Generating blog post...");
+        
+        String prompt = String.format(
+            "Write a 300-word blog post about '%s' for %s. " +
+            "Include an engaging intro, 2-3 main points, and a conclusion. " +
+            "Use a conversational but informative tone.",
+            topic, audience
+        );
+        
+        String content = generator.generateContent(prompt);
+        System.out.println("\n" + content);
+        
+        generator.saveToFile(content, "blogs", "blog");
+    }
+    
+    private static void generateSocialPost() throws IOException {
+        System.out.print("\n📱 Post topic/message: ");
+        String topic = scanner.nextLine();
+        
+        System.out.print("Platform (LinkedIn/Twitter/Instagram): ");
+        String platform = scanner.nextLine();
+        
+        System.out.println("\n⏳ Generating social post...");
+        
+        String prompt = String.format(
+            "Create a %s post about: %s. " +
+            "Keep it engaging, concise, and include relevant emojis. " +
+            "Max 280 characters for Twitter, 150 words for LinkedIn/Instagram.",
+            platform, topic
+        );
+        
+        String content = generator.generateContent(prompt);
+        System.out.println("\n" + content);
+        
+        generator.saveToFile(content, "social", platform.toLowerCase());
+    }
+    
+    private static void generateEmail() throws IOException {
+        System.out.print("\n✉️  Email purpose (e.g., job application, inquiry, follow-up): ");
+        String purpose = scanner.nextLine();
+        
+        System.out.print("Recipient/Context: ");
+        String context = scanner.nextLine();
+        
+        System.out.print("Tone (professional/friendly/urgent): ");
+        String tone = scanner.nextLine();
+        
+        System.out.println("\n⏳ Generating email...");
+        
+        String prompt = String.format(
+            "Write a %s email for: %s. Context: %s. " +
+            "Include subject line, greeting, body (3-4 paragraphs), and closing.",
+            tone, purpose, context
+        );
+        
+        String content = generator.generateContent(prompt);
+        System.out.println("\n" + content);
+        
+        generator.saveToFile(content, "emails", "email");
+    }
+    
+    private static void generateProductDescription() throws IOException {
+        System.out.print("\n🛍️  Product name: ");
+        String product = scanner.nextLine();
+        
+        System.out.print("Key features (comma-separated): ");
+        String features = scanner.nextLine();
+        
+        System.out.println("\n⏳ Generating product description...");
+        
+        String prompt = String.format(
+            "Write a compelling product description for: %s. " +
+            "Features: %s. " +
+            "Include a catchy headline, benefits-focused copy (100-150 words), " +
+            "and a call-to-action. Make it persuasive and SEO-friendly.",
+            product, features
+        );
+        
+        String content = generator.generateContent(prompt);
+        System.out.println("\n" + content);
+        
+        generator.saveToFile(content, "products", "product");
     }
 }
