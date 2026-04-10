@@ -3,6 +3,12 @@
 A command-line Java app that generates tailored cover letters using 
 Groq's API with Llama 3.3 — completely free, no credit card needed.
 
+## Demo
+
+![Cover letter generation](demo/demo1.png)
+![Generated output](demo/demo2.png)
+
+
 ## What it does
 - You paste a job description
 - You describe your background  
