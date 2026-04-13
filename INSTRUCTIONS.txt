@@ -1,0 +1,27 @@
+=== QUICK START GUIDE ===
+
+1. GET API KEY:
+   - Go to console.groq.com
+   - Sign up (2 minutes)
+   - Get your free API key
+
+2. SETUP:
+   - Create file: api-key.txt
+   - Paste your API key
+   - Save
+
+3. RUN:
+   Windows: java -cp "src;lib/*" Main
+   Mac/Linux: java -cp "src:lib/*" Main
+
+4. FIRST TIME:
+   - Choose option 0 for tutorial
+   - Try generating a blog post (option 1)
+   - All outputs saved in outputs/ folder
+
+5. TROUBLESHOOTING:
+   - "No such host" = Internet issue, try mobile data
+   - "Invalid API key" = Check api-key.txt file
+   - Other errors = See README.md
+
+Need help? Check README.md for full documentation

@@ -1,46 +1,71 @@
-# AI Content Assistant
+# 🤖 AI Content Assistant
 
-A command-line Java application that uses AI to generate content, summarize text, and answer questions. Built with Groq API (Llama 3.3) - completely free, no credit card needed.
+A command-line Java application that uses AI to generate professional content, summarize text, and answer questions. Built with Groq API (Llama 3.3) - completely free, no credit card needed.
 
-## Features (Building in Progress)
+![Java](https://img.shields.io/badge/Java-17+-orange)
+![License](https://img.shields.io/badge/license-MIT-blue)
+![Status](https://img.shields.io/badge/status-active-success)
 
-- ✅ **Day 1:** Basic API integration working
-- ✅ **Day 2:** Content generation (blog posts, social media, emails, products)
-- ✅ **Day 3:** Text summarization + Q&A system
-- ✅ **Day 4:** File upload, history viewer, better UX
-- ✅ **Day 5:** Input validation, retry logic, error handling
+## ✨ Features
 
+### Content Generation
+- 📝 **Blog Posts** - Generate SEO-friendly blog content
+- 📱 **Social Media Posts** - Create engaging posts for LinkedIn, Twitter, Instagram
+- ✉️ **Emails** - Draft professional emails for any purpose
+- 🛍️ **Product Descriptions** - Write compelling product copy
 
-## Tech Stack
+### AI-Powered Tools
+- 📄 **Text Summarization** - Condense long articles (short/medium/detailed)
+- 📂 **File Summarization** - Summarize uploaded .txt files
+- ❓ **Q&A System** - Ask anything, get detailed AI explanations
 
-- Java
-- OkHttp (HTTP client)
-- Gson (JSON parsing)
-- Groq API (Llama 3.3 70B)
+### Smart Features
+- ✅ Automatic retry logic (3 attempts)
+- ✅ Input validation
+- ✅ Organized file saving (timestamped)
+- ✅ Generation history viewer
+- ✅ Built-in tutorial for new users
 
-## How to Run
+## 🚀 Quick Start
 
-1. Clone this repo
-2. Download required JARs into `lib/` folder:
-   - okhttp-4.12.0.jar
-   - okio-jvm-3.6.0.jar
-   - gson-2.10.1.jar
-   - kotlin-stdlib-1.9.22.jar
-3. Get free API key from console.groq.com
-4. Save key in `api-key.txt` at project root
-5. Compile: `javac -cp "lib/*" src/Main.java`
-6. Run: `java -cp "src;lib/*" Main`
+### Prerequisites
+- Java 17 or higher
+- Internet connection
+- Groq API key (free at console.groq.com)
 
-## Why This Project
+### Installation
 
-First project in my AI application development portfolio. Demonstrates:
-- REST API integration
-- JSON parsing and handling
-- Prompt engineering
-- Building practical AI tools in Java
+1. **Clone this repository**
+```bash
+git clone https://github.com/abdulrafay20069/AI-Content-Assistant.git
+cd AI-Content-Assistant
+```
 
-## Next Steps
+2. **Get your free Groq API key**
+   - Visit https://console.groq.com
+   - Sign up (takes 2 minutes)
+   - Go to API Keys section
+   - Create new key
 
-Week 1: Complete CLI version with all features
-Week 2: Build web version with Spring Boot + React
-Week 3: Deploy and add automation features
+3. **Save your API key**
+   - Create a file named `api-key.txt` in project root
+   - Paste your API key (starts with `gsk_...`)
+   - Save and close
+
+4. **Compile the project**
+```bash
+javac -cp "lib/*" src/*.java
+```
+
+5. **Run the application**
+```bash
+# Windows:
+java -cp "src;lib/*" Main
+
+# Mac/Linux:
+java -cp "src:lib/*" Main
+```
+
+## 📖 Usage Examples
+
+### Generate a Blog Post

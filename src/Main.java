@@ -4,9 +4,25 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+/**
+ * AI Content Assistant - Main Application
+ * 
+ * A command-line tool for generating various types of content using AI.
+ * Features include blog generation, email drafting, text summarization, and
+ * Q&A.
+ * 
+ * @author Abdul Rafay
+ * @version 1.0
+ */
+
 public class Main {
     private static ContentGenerator generator;
     private static Scanner scanner = new Scanner(System.in);
+
+    /**
+     * Main entry point of the application.
+     * Loads API key, initializes generator, and runs the main menu loop.
+     */
 
     public static void main(String[] args) {
         try {
@@ -49,8 +65,13 @@ public class Main {
         System.out.println("\n💡 First time? Try option 0 for a tutorial!");
     }
 
+    /**
+     * Displays the main menu with all available options.
+     * Menu includes content generation, summarization, Q&A, and utility features.
+     */
+
     private static void displayMenu() {
-        System.out.println("\n===== MAIN MENU =====");
+        System.out.println("\n===== MAIN MENU ===");
         System.out.println("0. 📚 Tutorial (First time? Start here)");
         System.out.println("1. 📝 Generate Blog Post");
         System.out.println("2. 📱 Generate Social Media Post");
