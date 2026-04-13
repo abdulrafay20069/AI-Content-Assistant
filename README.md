@@ -7,6 +7,7 @@ A command-line Java application that uses AI to generate content, summarize text
 - ✅ **Day 1:** Basic API integration working
 - ✅ **Day 2:** Content generation (blog posts, social media, emails, products)
 - ✅ **Day 3:** Text summarization + Q&A system
+- ✅ **Day 4:** File upload, history viewer, better UX
 
 
 ## Tech Stack
