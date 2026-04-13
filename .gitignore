@@ -1,5 +1,14 @@
+# IDE files
 .vscode/
+.idea/
+*.iml
+
+# Compiled files
 *.class
+
+# API key (sensitive)
 api-key.txt
-outputs/
-examples/
+
+# OS files
+.DS_Store
+Thumbs.db
